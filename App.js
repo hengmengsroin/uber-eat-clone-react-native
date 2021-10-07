@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ToastProvider } from 'react-native-toast-notifications';
 import RootNavigation from './navigation';
 import Home from './screens/Home';
 
 export default function App() {
   return (
-    <RootNavigation></RootNavigation>
+    <ToastProvider>
+      <RootNavigation></RootNavigation>
+    </ToastProvider>
+
   );
 }

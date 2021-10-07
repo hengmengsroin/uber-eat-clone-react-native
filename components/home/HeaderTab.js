@@ -15,7 +15,7 @@ export default function HeaderTab(props) {
                 setActiveTab={props.setActiveTab}
             ></HeaderButton>
             <HeaderButton
-                text="Pick-up"
+                text="Pickup"
                 btnColor="white"
                 textColor="black"
                 activeTab={props.activeTab}

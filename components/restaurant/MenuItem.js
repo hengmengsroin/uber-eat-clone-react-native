@@ -1,61 +1,73 @@
 import React, { useState } from 'react'
 import { View, Text, Image, } from 'react-native'
 import { Divider } from 'react-native-elements'
-import { CheckBox } from 'react-native-elements/dist/checkbox/CheckBox'
 import { ScrollView } from 'react-native-gesture-handler'
+import BouncyCheckBox from "react-native-bouncy-checkbox"
+import { useDispatch } from 'react-redux'
 
-export default function MenuItemList() {
+const foods = [
+    {
+        name: "Food Item",
+        image_url: "https://food.bolt.eu/og-img.jpg",
+        rating: 2.0,
+        price: "20",
+        description: "hello hello "
+    },
+    {
+        name: "Food Item",
+        image_url: "https://food.bolt.eu/og-img.jpg",
+        rating: 2.0,
+        price: "20",
+        description: "hello hello"
+    },
+    {
+        name: "Food Item",
+        image_url: "https://food.bolt.eu/og-img.jpg",
+        rating: 2.0,
+        price: "20",
+        description: "hello hello"
+    },
+    {
+        name: "Food Item",
+        image_url: "https://food.bolt.eu/og-img.jpg",
+        rating: 2.0,
+        price: "20",
+        description: "hello hello"
+    },
+    {
+        name: "Food Item",
+        image_url: "https://food.bolt.eu/og-img.jpg",
+        rating: 2.0,
+        price: "20",
+        description: "hello hello"
+    },
+    {
+        name: "Food Item",
+        image_url: "https://food.bolt.eu/og-img.jpg",
+        rating: 2.0,
+        price: "20",
+        description: "hello hello"
+    }
+]
 
-    const foods = [
-        {
-            name: "Food Item",
-            image_url: "https://food.bolt.eu/og-img.jpg",
-            rating: 2.0,
-            price: "20",
-            duration: "hello hello "
-        },
-        {
-            name: "Food Item",
-            image_url: "https://food.bolt.eu/og-img.jpg",
-            rating: 2.0,
-            price: "20",
-            duration: "hello hello"
-        },
-        {
-            name: "Food Item",
-            image_url: "https://food.bolt.eu/og-img.jpg",
-            rating: 2.0,
-            price: "20",
-            duration: "hello hello"
-        },
-        {
-            name: "Food Item",
-            image_url: "https://food.bolt.eu/og-img.jpg",
-            rating: 2.0,
-            price: "20",
-            duration: "hello hello"
-        },
-        {
-            name: "Food Item",
-            image_url: "https://food.bolt.eu/og-img.jpg",
-            rating: 2.0,
-            price: "20",
-            duration: "hello hello"
-        },
-        {
-            name: "Food Item",
-            image_url: "https://food.bolt.eu/og-img.jpg",
-            rating: 2.0,
-            price: "20",
-            duration: "hello hello"
-        }
-    ]
+export default function MenuItemList({ restaurantName }) {
+
+
+
+
+    const dispatch = useDispatch();
+    const selectedItem = (item, checkBox) => {
+        return dispatch({
+            type: "AddToCart",
+            payload: { ...item, restaurantName: restaurantName, checkBox }
+        })
+    }
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false} >
+        <ScrollView showsVerticalScrollIndicator={false} style={{}}>
             {foods.map((item, index) => {
                 return (<View key={index}>
-                    <MenuItem name={item.name} description={item.duration} image_url={item.image_url} price={item.price}></MenuItem>
+                    <MenuItem food={item} selectItem={selectedItem}></MenuItem>
                     <Divider orientation width={1.3} style={{ paddingHorizontal: 15 }}></Divider>
                 </View>)
             })}
@@ -63,21 +75,21 @@ export default function MenuItemList() {
     )
 }
 
-const MenuItem = (props) => {
-    const [isSelected, setSelection] = useState(false)
+const MenuItem = ({ food, selectItem }) => {
+
     return (<View style={{ flexDirection: 'row', padding: 15, paddingLeft: 0, justifyContent: 'space-around' }}>
-        <CheckBox
-            value={isSelected}
-            onValueChange={setSelection}
-            style={{ alignSelf: "center", }}
+        <BouncyCheckBox style={{ marginLeft: 15 }}
+            iconStyle={{ borderColor: 'lightgray', borderRadius: 0, }}
+            fillColor="green"
+            onPress={(checkBook) => selectItem(food, checkBook)}
         />
         <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 22, fontWeight: '600' }}>{props.name}</Text>
-            <Text style={{ marginTop: 10, fontSize: 16, fontWeight: '400' }}>{props.description}</Text>
-            <Text style={{ marginTop: 10, fontSize: 16, fontWeight: '400' }}>{props.price}$</Text>
+            <Text style={{ fontSize: 22, fontWeight: '600' }}>{food.name}</Text>
+            <Text style={{ marginTop: 10, fontSize: 16, fontWeight: '400' }}>{food.description}</Text>
+            <Text style={{ marginTop: 10, fontSize: 16, fontWeight: '400' }}>{food.price}$</Text>
         </View>
         <View>
-            <Image source={{ uri: props.image_url }} style={{ width: 120, height: 100, borderRadius: 10 }}></Image>
+            <Image source={{ uri: food.image_url }} style={{ width: 120, height: 100, borderRadius: 10 }}></Image>
         </View>
 
     </View>)

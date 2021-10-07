@@ -22,31 +22,40 @@ export const localRes = [
         image_url: "https://food.bolt.eu/og-img.jpg",
         rating: 2.0,
         price: "$$",
-        duration: "30-40 min"
+        duration: "30-40 min",
+        categories: [
+            { title: "Chinese" }
+        ]
     }
 ]
 
 export default function RestaurantList(props) {
+
     return (
         <View>
             {
-                props.restaurantData.map((item, index) => <RestaurantItem key={index} image_url={item.image_url} name={item.name} rating={item.rating} time={item.duration} navigation={props.navigation} />)
+                props.restaurantData.map((item, index) => <RestaurantItem key={index} item={item} navigation={props.navigation} />)
             }
 
         </View>
     )
 }
 
-const RestaurantItem = (props) => (
-    <TouchableOpacity activeOpacity={0.8} onPress={() => {
-        props.navigation.navigate("Detail")
-    }}>
-        <View style={{ marginTop: 10, padding: 15, backgroundColor: 'white' }}>
-            <RestaurantImage image_url={props.image_url} />
-            <RestaurantInfo name={props.name} time={props.time} rating={props.rating} />
-        </View>
-    </TouchableOpacity>
-)
+const RestaurantItem = (props) => {
+    let item = props.item
+    return (
+        <TouchableOpacity activeOpacity={0.8} onPress={() => {
+            props.navigation.navigate("Detail", {
+                restaurant: item
+            })
+        }}>
+            <View style={{ marginTop: 10, padding: 15, backgroundColor: 'white' }}>
+                <RestaurantImage image_url={item.image_url} />
+                <RestaurantInfo name={item.name} time={item.time} rating={item.rating} />
+            </View>
+        </TouchableOpacity>
+    )
+}
 
 const RestaurantImage = (props) => (
     <>
